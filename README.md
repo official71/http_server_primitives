@@ -12,12 +12,7 @@ The tests are performed on local host, macOS 10.12.6 OS, 2.2 GHz Intel Core i7 (
 
 * start the server by running the executable `./run_server`, it will automatically start running on port 8080
 
-* open another terminal, and execute the shell script under `/benchmark`
-
-```shell
-./benchmark/benchmark.sh
-```
-
+* open another terminal, and execute the shell script `./benchmark/benchmark.sh`
     * inside the shell script it calls `ab -n {$N} -c {$C} http://127.0.0.1:8080/` where `N` is 10000 for the total number of requests, and `$C` is in `{1 10 100 500}` for concurrent requests
     * the selected output is printed on screen after `ab` finishes; the complete output of `ab` is appended to file `output.log` for reference
 
@@ -134,7 +129,7 @@ Although socket connecting and I/O are non-blocking, the server is still accepti
 
 ## Issues:
 
-* 1. `ab` gets error `apr_socket_recv: Connection reset by peer (54)` when the concurrency level exceeds the system socket connection backlog defined by the `somaxconn` value. On Mac OS X (default: 128), check by `sysctl -a | grep somax` and alter it by `sudo sysctl -w kern.ipc.somaxconn=1024`
+* `ab` gets error `apr_socket_recv: Connection reset by peer (54)` when the concurrency level exceeds the system socket connection backlog defined by the `somaxconn` value. On Mac OS X (default: 128), check by `sysctl -a | grep somax` and alter it by `sudo sysctl -w kern.ipc.somaxconn=1024`
 
-* 2. `ab` gets error `apr_pollset_poll: The timeout specified has expired (70007)` after frequent requests; [solution](https://stackoverflow.com/questions/1216267/ab-program-freezes-after-lots-of-requests-why/6699135#6699135)
+* `ab` gets error `apr_pollset_poll: The timeout specified has expired (70007)` after frequent requests; [solution](https://stackoverflow.com/questions/1216267/ab-program-freezes-after-lots-of-requests-why/6699135#6699135)
 
